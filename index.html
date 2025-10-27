@@ -315,16 +315,19 @@
 
         .confetti {
             position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #667eea;
-            position: absolute;
-            animation: confetti-fall 3s linear;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: confetti-fall 3s linear forwards;
+            z-index: 9999;
         }
 
         @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
                 opacity: 0;
             }
         }
@@ -376,8 +379,9 @@
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             text-align: center;
-            z-index: 1000;
+            z-index: 10000;
             display: none;
+            max-width: 90%;
         }
 
         .achievement-popup.show {
@@ -392,6 +396,24 @@
             to {
                 transform: translate(-50%, -50%) scale(1);
             }
+        }
+
+        .achievement-emoji {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        .achievement-title {
+            color: #667eea;
+            font-size: 24px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .achievement-text {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -467,9 +489,9 @@
     </div>
 
     <div class="achievement-popup" id="achievementPopup">
-        <div style="font-size: 60px;">🎉</div>
-        <h2 style="color: #667eea; margin: 10px 0;">Tebrikler!</h2>
-        <p id="achievementText"></p>
+        <div class="achievement-emoji" id="achievementEmoji">🎉</div>
+        <h2 class="achievement-title" id="achievementTitle">Tebrikler!</h2>
+        <p class="achievement-text" id="achievementText"></p>
     </div>
 
     <script type="module">
@@ -484,7 +506,7 @@
             messagingSenderId: "727276404297",
             appId: "1:727276404297:web:d451a88bccd3de9fe68998",
             measurementId: "G-N51RDEN8YC",
-            databaseURL: "https://selinesatevyonetimi-913cc-default-rtdb.europe-west1.firebasedatabase.app/"
+            databaseURL: "https://selinesatevyonetimi-913cc-default-rtdb.europe-west1.firebasedatabase.app"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -494,6 +516,25 @@
         window.currentUser = null;
         window.currentDay = null;
         window.timers = {};
+
+        // ADHD Onaylı Tebrik Mesajları
+        const congratsMessages = [
+            "🌟 Harikasın! Bu ev için çok çalışıyorsun!",
+            "💪 Harika bir eşsin! İnan bana!",
+            "⭐ Çok çalışkansın! Gurur duyuyorum!",
+            "💝 Emeklerin çok değerli!",
+            "🎯 Süpersin! Devam et böyle!",
+            "✨ Mükemmel! Gerçekten harika gidiyorsun!",
+            "🏆 Şampiyonsun! Ne kadar da başarılısın!",
+            "💖 Seninle gurur duyuyorum!",
+            "🌈 İnanılmazsın! Tam bir yıldızsın!",
+            "🎊 Bravo! Çok iyi yapıyorsun!",
+            "💎 Sen bir hazinesin! Değerini bil!",
+            "🚀 Roket gibi gidiyorsun! Muhteşem!",
+            "🌺 Senin gibi biri olmak şanstır!",
+            "⚡ Enerjin harika! Devam et!",
+            "🎨 Yaratıcı ve çalışkan! Süpersin!"
+        ];
 
         // Görev verileri
         const tasks = {
@@ -596,6 +637,91 @@
         const dayNames = ['pazar', 'pazartesi', 'sali', 'carsamba', 'persembe', 'cuma', 'cumartesi'];
         const dayNamesDisplay = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
 
+        // Haftalık Sıfırlama Fonksiyonları
+        function getMonday(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(d.setDate(diff));
+        }
+
+        function isNewWeek(lastDate, currentDate) {
+            const lastMonday = getMonday(lastDate);
+            const currentMonday = getMonday(currentDate);
+            lastMonday.setHours(0, 0, 0, 0);
+            currentMonday.setHours(0, 0, 0, 0);
+            return lastMonday.getTime() !== currentMonday.getTime();
+        }
+
+        function checkWeeklyReset() {
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            
+            get(ref(database, 'lastReset')).then((snapshot) => {
+                const lastReset = snapshot.val();
+                const lastResetDate = lastReset ? new Date(lastReset) : null;
+                
+                // Pazartesi ve yeni hafta ise
+                if (dayOfWeek === 1 && (!lastResetDate || isNewWeek(lastResetDate, today))) {
+                    resetWeeklyTasks();
+                    set(ref(database, 'lastReset'), today.toISOString());
+                }
+            });
+        }
+
+        function resetWeeklyTasks() {
+            // Sadece görevleri sıfırla, XP ve istatistikler korunsun
+            set(ref(database, 'taskData/timers'), {});
+            
+            // Sadece bu hafta ve bugün istatistiklerini sıfırla
+            get(ref(database, 'stats')).then((snapshot) => {
+                const stats = snapshot.val() || {};
+                stats.todayCompleted = 0;
+                stats.weekCompleted = 0;
+                // totalCompleted ve streak KORUNUYOR
+                set(ref(database, 'stats'), stats);
+            });
+            
+            showAchievement('🌅 Yeni Hafta!', 'Hadi baştan başlayalım! Yeni bir hafta, yeni bir başlangıç! Köpeğiniz ve seviyeniz korunuyor! 💪');
+        }
+
+        // Tüm görevler tamamlandı mı kontrol
+        function checkAllTasksCompleted() {
+            if (!window.currentUser || !window.currentDay) return;
+            
+            const userTasks = tasks[window.currentUser][window.currentDay] || [];
+            if (userTasks.length === 0) return;
+            
+            let allCompleted = true;
+            userTasks.forEach(task => {
+                const taskTimerId = `${window.currentUser}-${window.currentDay}-${task.id}`;
+                if (!window.timers[taskTimerId] || !window.timers[taskTimerId].completed) {
+                    allCompleted = false;
+                }
+            });
+            
+            if (allCompleted) {
+                showRelaxMessage();
+            }
+        }
+
+        function showRelaxMessage() {
+            const messages = [
+                "Tebrikler! Bugünün tüm görevlerini tamamladın!",
+                "Artık dinlenme zamanı! İyi çalıştın!",
+                "Hepsini bitirdin! Şimdi kendine zaman ayır!",
+                "Muhteşem! Artık rahat edebilirsin!",
+                "Bugün çok üretkendin! Kendini ödüllendir!",
+                "Harika bir gündü! Artık dinlenebilirsin!"
+            ];
+            
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            
+            showAchievement('🏖️ Hadi Dinlen!', randomMsg, '😌');
+            
+            createBigConfetti();
+        }
+
         // Initialize
         function init() {
             const today = new Date().getDay();
@@ -605,6 +731,10 @@
             loadPetData();
             loadStats();
             loadMessages();
+            checkWeeklyReset();
+            
+            // Her gün sabah 1'de kontrol et (opsiyonel)
+            setInterval(checkWeeklyReset, 60 * 60 * 1000); // Her saat kontrol
         }
 
         function updateDateDisplay() {
@@ -668,7 +798,7 @@
                         <div class="task-time">${task.time}</div>
                     </div>
                     <div class="task-controls">
-                        <div class="checkbox" id="check-${task.id}" onclick="toggleTask(${task.id})">
+                        <div class="checkbox ${timerData.completed ? 'checked' : ''}" id="check-${task.id}" onclick="toggleTask(${task.id})">
                             ${timerData.completed ? '✓' : ''}
                         </div>
                         <button class="timer-btn" id="timer-btn-${task.id}" 
@@ -743,11 +873,16 @@
                 actualTime: elapsed
             };
             
-            // XP kazan
             addXP(10);
             updateStats('complete');
             saveToFirebase();
             createConfetti();
+            
+            // Rastgele tebrik mesajı
+            const randomCongrats = congratsMessages[Math.floor(Math.random() * congratsMessages.length)];
+            showAchievement('🎉 Tebrikler!', randomCongrats);
+            
+            setTimeout(checkAllTasksCompleted, 1000);
             renderTasks();
         };
 
@@ -764,6 +899,12 @@
                 addXP(5);
                 updateStats('complete');
                 createConfetti();
+                
+                // Rastgele tebrik mesajı
+                const randomCongrats = congratsMessages[Math.floor(Math.random() * congratsMessages.length)];
+                showAchievement('🎉 Tebrikler!', randomCongrats);
+                
+                setTimeout(checkAllTasksCompleted, 1000);
             } else {
                 updateStats('uncomplete');
             }
@@ -782,7 +923,8 @@
                 if (petData.xp >= xpNeeded) {
                     petData.level++;
                     petData.xp = petData.xp - xpNeeded;
-                    showAchievement(`Seviye ${petData.level}!`, '🎊 Köpeğiniz seviye atladı!');
+                    showAchievement('🎊 Seviye Atladı!', `Köpeğiniz Seviye ${petData.level} oldu! Tebrikler!`, '🐕');
+                    createBigConfetti();
                 }
                 
                 set(ref(database, 'pet'), petData);
@@ -797,7 +939,6 @@
             document.getElementById('petXP').textContent = `${petData.xp}/${xpNeeded}`;
             document.getElementById('xpBar').style.width = `${(petData.xp / xpNeeded) * 100}%`;
             
-            // Köpek emoji level'a göre değişsin
             const emojis = ['🐕', '🐕‍🦺', '🐩', '🐕‍🦺', '🐺'];
             document.getElementById('petEmoji').textContent = emojis[Math.min(petData.level - 1, 4)];
         }
@@ -903,23 +1044,44 @@
         }
 
         function createConfetti() {
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 100; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = ['#667eea', '#764ba2', '#ffeaa7', '#fdcb6e', '#ff6b9d'][Math.floor(Math.random() * 5)];
+                    confetti.style.top = '-10px';
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.background = ['#667eea', '#764ba2', '#ffeaa7', '#fdcb6e', '#ff6b9d', '#00b894', '#e17055'][Math.floor(Math.random() * 7)];
                     document.body.appendChild(confetti);
                     setTimeout(() => confetti.remove(), 3000);
-                }, i * 30);
+                }, i * 15);
             }
         }
 
-        function showAchievement(title, text) {
+        function createBigConfetti() {
+            for (let i = 0; i < 200; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.width = (Math.random() * 15 + 8) + 'px';
+                    confetti.style.height = (Math.random() * 15 + 8) + 'px';
+                    confetti.style.background = ['#667eea', '#764ba2', '#ffeaa7', '#fdcb6e', '#ff6b9d', '#00b894', '#e17055', '#6c5ce7', '#a29bfe'][Math.floor(Math.random() * 9)];
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 10);
+            }
+        }
+
+        function showAchievement(title, text, emoji = '🎉') {
             const popup = document.getElementById('achievementPopup');
-            document.getElementById('achievementText').innerHTML = `<strong>${title}</strong><br>${text}`;
+            document.getElementById('achievementEmoji').textContent = emoji;
+            document.getElementById('achievementTitle').textContent = title;
+            document.getElementById('achievementText').textContent = text;
             popup.classList.add('show');
-            setTimeout(() => popup.classList.remove('show'), 3000);
+            setTimeout(() => popup.classList.remove('show'), 4000);
         }
 
         // Load data from Firebase on init
@@ -927,6 +1089,7 @@
             if (snapshot.exists()) {
                 window.timers = snapshot.val().timers || {};
             }
+            renderTasks();
         });
 
         init();
