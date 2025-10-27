@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 Selin & Esat Ev Yönetimi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .user-select {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .user-btn {
+            flex: 1;
+            padding: 15px;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            background: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .date-display {
+            text-align: center;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .pet-section {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pet-container {
+            font-size: 80px;
+            margin: 10px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .pet-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s;
+        }
+
+        .task-section {
+            margin-bottom: 20px;
+        }
+
+        .task-item {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .task-title {
+            font-weight: bold;
+            color: #333;
+            flex: 1;
+        }
+
+        .task-time {
+            color: #999;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .task-duration {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .task-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .checkbox {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .checkbox.checked {
+            background: #667eea;
+            color: white;
+        }
+
+        .timer-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .timer-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .timer-btn.stop {
+            background: #ff6b6b;
+        }
+
+        .timer-display {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 5px 0;
+        }
+
+        .timer-result {
+            font-size: 14px;
+            color: #27ae60;
+            margin-top: 5px;
+        }
+
+        .message-section {
+            background: #ffe5f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffc0cb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .send-btn {
+            width: 100%;
+            padding: 10px;
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .messages-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .message-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .message-sender {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .message-text {
+            color: #333;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .stats-section {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #667eea;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .day-selector {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding: 10px 0;
+            margin-bottom: 15px;
+        }
+
+        .day-btn {
+            min-width: 60px;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .day-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            background: #e8f5e9;
+        }
+
+        .achievement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .achievement-popup.show {
+            display: block;
+            animation: popup 0.5s;
+        }
+
+        @keyframes popup {
+            from {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 Selin & Esat Ev Yönetimi</h1>
+        </div>
+
+        <div class="user-select">
+            <button class="user-btn" id="btnEsat" onclick="selectUser('esat')">👨 ESAT</button>
+            <button class="user-btn" id="btnSelin" onclick="selectUser('selin')">👩 SELİN</button>
+        </div>
+
+        <div class="date-display" id="dateDisplay"></div>
+
+        <div class="pet-section">
+            <div class="pet-container" id="petEmoji">🐕</div>
+            <div style="font-weight: bold; margin: 10px 0;">Köpeğiniz: <span id="petName">Buddy</span></div>
+            <div class="pet-stats">
+                <div class="stat">
+                    <div class="stat-label">Seviye</div>
+                    <div class="stat-value" id="petLevel">1</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Mutluluk</div>
+                    <div class="stat-value" id="petHappiness">50</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">XP</div>
+                    <div class="stat-value" id="petXP">0/100</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="xpBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="day-selector" id="daySelector"></div>
+
+        <div class="section-title" id="currentUserTitle">Bugünün Görevleri</div>
+        
+        <div class="task-section" id="taskSection"></div>
+
+        <div class="stats-section">
+            <div class="section-title">📊 İstatistikler</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="todayCompleted">0</div>
+                    <div class="stat-text">Bugün Tamamlanan</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="weekCompleted">0</div>
+                    <div class="stat-text">Bu Hafta</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCompleted">0</div>
+                    <div class="stat-text">Toplam</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="streak">0</div>
+                    <div class="stat-text">Seri (Gün)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-section">
+            <div class="section-title">💌 Mesajlar</div>
+            <input type="text" class="message-input" id="messageInput" placeholder="Eşine mesaj yaz...">
+            <button class="send-btn" onclick="sendMessage()">Gönder</button>
+            <div class="messages-list" id="messagesList"></div>
+        </div>
+    </div>
+
+    <div class="achievement-popup" id="achievementPopup">
+        <div style="font-size: 60px;">🎉</div>
+        <h2 style="color: #667eea; margin: 10px 0;">Tebrikler!</h2>
+        <p id="achievementText"></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, set, get, push, onValue, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB65JMbRij-ZkkZaQ_IkoYWpPDwclCIxHQ",
+            authDomain: "selinesatevyonetimi.firebaseapp.com",
+            projectId: "selinesatevyonetimi",
+            storageBucket: "selinesatevyonetimi.firebasestorage.app",
+            messagingSenderId: "727276404297",
+            appId: "1:727276404297:web:d451a88bccd3de9fe68998",
+            measurementId: "G-N51RDEN8YC",
+            databaseURL: "https://selinesatevyonetimi-default-rtdb.firebaseio.com"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Global variables
+        window.currentUser = null;
+        window.currentDay = null;
+        window.timers = {};
+
+        // Görev verileri
+        const tasks = {
+            esat: {
+                pazartesi: [
+                    {id: 1, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
+                    {id: 2, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
+                    {id: 3, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
+                    {id: 4, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"},
+                    {id: 5, title: "Salon topla (koltuklar)", time: "20:15", duration: 5, category: "aksam"}
+                ],
+                sali: [
+                    {id: 6, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
+                    {id: 7, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
+                    {id: 8, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
+                    {id: 9, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"},
+                    {id: 10, title: "Salon 5 dakika topla", time: "20:15", duration: 5, category: "aksam"}
+                ],
+                carsamba: [
+                    {id: 11, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
+                    {id: 12, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
+                    {id: 13, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
+                    {id: 14, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"},
+                    {id: 15, title: "Küçük oda masasını topla (5 eşya)", time: "20:15", duration: 5, category: "aksam"}
+                ],
+                persembe: [
+                    {id: 16, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
+                    {id: 17, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
+                    {id: 18, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
+                    {id: 19, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"}
+                ],
+                cuma: [
+                    {id: 20, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
+                    {id: 21, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
+                    {id: 22, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
+                    {id: 23, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"},
+                    {id: 24, title: "Salon GENEL topla (10 eşya)", time: "20:15", duration: 15, category: "aksam"}
+                ],
+                cumartesi: [
+                    {id: 25, title: "Çöp çıkart", time: "08:00", duration: 5, category: "sabah"},
+                    {id: 26, title: "Kedi mama + su ver", time: "08:05", duration: 5, category: "sabah"},
+                    {id: 27, title: "Bulaşık makinesini doldur + el ile yıka", time: "10:00", duration: 15, category: "buyuk"},
+                    {id: 28, title: "TOZ AL (tüm ev)", time: "10:15", duration: 15, category: "buyuk"},
+                    {id: 29, title: "SÜPÜR (tüm ev + halılar)", time: "10:30", duration: 30, category: "buyuk"},
+                    {id: 30, title: "Küçük odayı düzenle", time: "11:00", duration: 20, category: "buyuk"},
+                    {id: 31, title: "Salon yüzeylerini sil", time: "11:20", duration: 20, category: "buyuk"},
+                    {id: 32, title: "Kapı/dolap kollarını sil", time: "11:40", duration: 10, category: "buyuk"},
+                    {id: 33, title: "Kedi kumunu TAMAMEN değiştir", time: "11:50", duration: 10, category: "buyuk"},
+                    {id: 34, title: "Balkon süpür + düzenle", time: "15:00", duration: 15, category: "ogle"},
+                    {id: 35, title: "Elektrikli süpürge temizle", time: "15:15", duration: 15, category: "ogle"},
+                    {id: 36, title: "Bahçe işleri", time: "15:30", duration: 15, category: "ogle"}
+                ],
+                pazar: [
+                    {id: 37, title: "Çöp çıkart", time: "09:00", duration: 5, category: "sabah"},
+                    {id: 38, title: "Kedi mama + su ver", time: "09:05", duration: 5, category: "sabah"},
+                    {id: 39, title: "Bulaşık makinesini doldur", time: "19:30", duration: 10, category: "aksam"},
+                    {id: 40, title: "El ile büyük bulaşıklar yıka", time: "19:40", duration: 5, category: "aksam"}
+                ]
+            },
+            selin: {
+                pazartesi: [
+                    {id: 101, title: "Yemek hazırla", time: "17:00", duration: 15, category: "aksam"},
+                    {id: 102, title: "Yatak odası kıyafet ayır", time: "17:15", duration: 10, category: "aksam"}
+                ],
+                sali: [
+                    {id: 103, title: "Çamaşır makinesi başlat", time: "06:30", duration: 10, category: "sabah"},
+                    {id: 104, title: "Yemek hazırla", time: "16:45", duration: 15, category: "aksam"},
+                    {id: 105, title: "Çamaşırları as", time: "17:00", duration: 10, category: "aksam"},
+                    {id: 106, title: "Mutfak tezgahını sil", time: "17:10", duration: 5, category: "aksam"}
+                ],
+                carsamba: [
+                    {id: 107, title: "Yemek hazırla", time: "17:00", duration: 15, category: "aksam"},
+                    {id: 108, title: "Kıyafet ütüle (3-4 parça)", time: "17:15", duration: 15, category: "aksam"},
+                    {id: 109, title: "Banyo lavabo + ayna sil", time: "17:30", duration: 10, category: "aksam"},
+                    {id: 110, title: "Mutfak lavabosu sil", time: "17:40", duration: 5, category: "aksam"}
+                ],
+                persembe: [
+                    {id: 111, title: "Çamaşır makinesi başlat", time: "06:30", duration: 10, category: "sabah"},
+                    {id: 112, title: "Hızlı yemek", time: "16:45", duration: 15, category: "aksam"}
+                ],
+                cuma: [
+                    {id: 113, title: "Yemek hazırla", time: "17:00", duration: 15, category: "aksam"},
+                    {id: 114, title: "Çamaşırları dolaba yerleştir", time: "17:15", duration: 15, category: "aksam"}
+                ],
+                cumartesi: [
+                    {id: 115, title: "Çamaşır yıka + as", time: "10:00", duration: 20, category: "buyuk"},
+                    {id: 116, title: "Yatak odasını düzenle", time: "10:20", duration: 30, category: "buyuk"},
+                    {id: 117, title: "Ütü (10 parça)", time: "10:50", duration: 20, category: "buyuk"},
+                    {id: 118, title: "Banyo temizliği", time: "11:10", duration: 30, category: "buyuk"},
+                    {id: 119, title: "YER SİL - TÜM EV", time: "11:40", duration: 20, category: "buyuk"},
+                    {id: 120, title: "Buzdolabı temizliği", time: "15:00", duration: 15, category: "ogle"},
+                    {id: 121, title: "Mutfak + ocak derin temizlik", time: "15:15", duration: 15, category: "ogle"}
+                ],
+                pazar: [
+                    {id: 122, title: "Yemek hazırla", time: "18:00", duration: 20, category: "aksam"}
+                ]
+            }
+        };
+
+        const dayNames = ['pazar', 'pazartesi', 'sali', 'carsamba', 'persembe', 'cuma', 'cumartesi'];
+        const dayNamesDisplay = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+
+        // Initialize
+        function init() {
+            const today = new Date().getDay();
+            window.currentDay = dayNames[today];
+            updateDateDisplay();
+            createDaySelector();
+            loadPetData();
+            loadStats();
+            loadMessages();
+        }
+
+        function updateDateDisplay() {
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateDisplay').textContent = today.toLocaleDateString('tr-TR', options);
+        }
+
+        function createDaySelector() {
+            const selector = document.getElementById('daySelector');
+            selector.innerHTML = '';
+            dayNamesDisplay.forEach((name, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'day-btn';
+                btn.textContent = name;
+                btn.onclick = () => selectDay(dayNames[index]);
+                if (dayNames[index] === window.currentDay) {
+                    btn.classList.add('active');
+                }
+                selector.appendChild(btn);
+            });
+        }
+
+        window.selectUser = function(user) {
+            window.currentUser = user;
+            document.getElementById('btnEsat').classList.remove('active');
+            document.getElementById('btnSelin').classList.remove('active');
+            document.getElementById(user === 'esat' ? 'btnEsat' : 'btnSelin').classList.add('active');
+            document.getElementById('currentUserTitle').textContent = 
+                (user === 'esat' ? '👨 Esat' : '👩 Selin') + ' - Bugünün Görevleri';
+            renderTasks();
+        };
+
+        window.selectDay = function(day) {
+            window.currentDay = day;
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTasks();
+        };
+
+        function renderTasks() {
+            if (!window.currentUser || !window.currentDay) return;
+            
+            const taskSection = document.getElementById('taskSection');
+            const userTasks = tasks[window.currentUser][window.currentDay] || [];
+            
+            taskSection.innerHTML = '';
+            
+            userTasks.forEach(task => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'task-item';
+                taskDiv.id = `task-${task.id}`;
+                
+                const timerId = `${window.currentUser}-${window.currentDay}-${task.id}`;
+                const timerData = window.timers[timerId] || {};
+                
+                taskDiv.innerHTML = `
+                    <div class="task-header">
+                        <div class="task-title">${task.title}</div>
+                        <span class="task-duration">${task.duration} dk</span>
+                        <div class="task-time">${task.time}</div>
+                    </div>
+                    <div class="task-controls">
+                        <div class="checkbox" id="check-${task.id}" onclick="toggleTask(${task.id})">
+                            ${timerData.completed ? '✓' : ''}
+                        </div>
+                        <button class="timer-btn" id="timer-btn-${task.id}" 
+                            onclick="${timerData.running ? `stopTimer(${task.id}, ${task.duration})` : `startTimer(${task.id})`}">
+                            ${timerData.running ? '⏹ Bitir' : '▶️ Başla'}
+                        </button>
+                    </div>
+                    ${timerData.running ? `<div class="timer-display" id="timer-${task.id}">00:00</div>` : ''}
+                    ${timerData.result ? `<div class="timer-result">${timerData.result}</div>` : ''}
+                `;
+                
+                if (timerData.completed) {
+                    taskDiv.classList.add('completed');
+                }
+                
+                taskSection.appendChild(taskDiv);
+            });
+        }
+
+        window.startTimer = function(taskId) {
+            const timerId = `${window.currentUser}-${window.currentDay}-${taskId}`;
+            const startTime = Date.now();
+            
+            window.timers[timerId] = {
+                startTime: startTime,
+                running: true,
+                interval: null
+            };
+            
+            const timerDisplay = document.createElement('div');
+            timerDisplay.className = 'timer-display';
+            timerDisplay.id = `timer-${taskId}`;
+            document.getElementById(`task-${taskId}`).insertBefore(
+                timerDisplay,
+                document.getElementById(`timer-btn-${taskId}`).parentElement
+            );
+            
+            window.timers[timerId].interval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById(`timer-${taskId}`).textContent = 
+                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+            
+            renderTasks();
+        };
+
+        window.stopTimer = function(taskId, expectedDuration) {
+            const timerId = `${window.currentUser}-${window.currentDay}-${taskId}`;
+            const timerData = window.timers[timerId];
+            
+            if (!timerData) return;
+            
+            clearInterval(timerData.interval);
+            const elapsed = Math.floor((Date.now() - timerData.startTime) / 1000 / 60);
+            const diff = expectedDuration - elapsed;
+            
+            let result = '';
+            if (diff > 0) {
+                result = `🎉 ${diff} DK HIZLISIN!`;
+            } else if (diff < 0) {
+                result = `⏱️ ${Math.abs(diff)} dk fazla sürdü`;
+            } else {
+                result = `✨ Tam zamanında!`;
+            }
+            
+            window.timers[timerId] = {
+                completed: true,
+                running: false,
+                result: result,
+                actualTime: elapsed
+            };
+            
+            // XP kazan
+            addXP(10);
+            updateStats('complete');
+            saveToFirebase();
+            createConfetti();
+            renderTasks();
+        };
+
+        window.toggleTask = function(taskId) {
+            const timerId = `${window.currentUser}-${window.currentDay}-${taskId}`;
+            
+            if (!window.timers[timerId]) {
+                window.timers[timerId] = {};
+            }
+            
+            window.timers[timerId].completed = !window.timers[timerId].completed;
+            
+            if (window.timers[timerId].completed) {
+                addXP(5);
+                updateStats('complete');
+                createConfetti();
+            } else {
+                updateStats('uncomplete');
+            }
+            
+            saveToFirebase();
+            renderTasks();
+        };
+
+        function addXP(amount) {
+            get(ref(database, 'pet')).then((snapshot) => {
+                const petData = snapshot.val() || { level: 1, xp: 0, happiness: 50 };
+                petData.xp += amount;
+                petData.happiness = Math.min(100, petData.happiness + 2);
+                
+                const xpNeeded = petData.level * 100;
+                if (petData.xp >= xpNeeded) {
+                    petData.level++;
+                    petData.xp = petData.xp - xpNeeded;
+                    showAchievement(`Seviye ${petData.level}!`, '🎊 Köpeğiniz seviye atladı!');
+                }
+                
+                set(ref(database, 'pet'), petData);
+                updatePetDisplay(petData);
+            });
+        }
+
+        function updatePetDisplay(petData) {
+            document.getElementById('petLevel').textContent = petData.level;
+            document.getElementById('petHappiness').textContent = petData.happiness;
+            const xpNeeded = petData.level * 100;
+            document.getElementById('petXP').textContent = `${petData.xp}/${xpNeeded}`;
+            document.getElementById('xpBar').style.width = `${(petData.xp / xpNeeded) * 100}%`;
+            
+            // Köpek emoji level'a göre değişsin
+            const emojis = ['🐕', '🐕‍🦺', '🐩', '🐕‍🦺', '🐺'];
+            document.getElementById('petEmoji').textContent = emojis[Math.min(petData.level - 1, 4)];
+        }
+
+        function loadPetData() {
+            onValue(ref(database, 'pet'), (snapshot) => {
+                const petData = snapshot.val() || { level: 1, xp: 0, happiness: 50 };
+                updatePetDisplay(petData);
+            });
+        }
+
+        function updateStats(action) {
+            get(ref(database, 'stats')).then((snapshot) => {
+                const stats = snapshot.val() || {
+                    todayCompleted: 0,
+                    weekCompleted: 0,
+                    totalCompleted: 0,
+                    streak: 0
+                };
+                
+                if (action === 'complete') {
+                    stats.todayCompleted++;
+                    stats.weekCompleted++;
+                    stats.totalCompleted++;
+                } else if (action === 'uncomplete') {
+                    stats.todayCompleted = Math.max(0, stats.todayCompleted - 1);
+                    stats.weekCompleted = Math.max(0, stats.weekCompleted - 1);
+                    stats.totalCompleted = Math.max(0, stats.totalCompleted - 1);
+                }
+                
+                set(ref(database, 'stats'), stats);
+                displayStats(stats);
+            });
+        }
+
+        function displayStats(stats) {
+            document.getElementById('todayCompleted').textContent = stats.todayCompleted || 0;
+            document.getElementById('weekCompleted').textContent = stats.weekCompleted || 0;
+            document.getElementById('totalCompleted').textContent = stats.totalCompleted || 0;
+            document.getElementById('streak').textContent = stats.streak || 0;
+        }
+
+        function loadStats() {
+            onValue(ref(database, 'stats'), (snapshot) => {
+                const stats = snapshot.val() || {
+                    todayCompleted: 0,
+                    weekCompleted: 0,
+                    totalCompleted: 0,
+                    streak: 0
+                };
+                displayStats(stats);
+            });
+        }
+
+        window.sendMessage = function() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (!text || !window.currentUser) return;
+            
+            const messageRef = push(ref(database, 'messages'));
+            set(messageRef, {
+                sender: window.currentUser,
+                text: text,
+                timestamp: Date.now()
+            });
+            
+            input.value = '';
+        };
+
+        function loadMessages() {
+            onValue(ref(database, 'messages'), (snapshot) => {
+                const messages = [];
+                snapshot.forEach((child) => {
+                    messages.push({ id: child.key, ...child.val() });
+                });
+                
+                messages.sort((a, b) => b.timestamp - a.timestamp);
+                
+                const messagesList = document.getElementById('messagesList');
+                messagesList.innerHTML = '';
+                
+                messages.slice(0, 10).forEach(msg => {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.className = 'message-item';
+                    const date = new Date(msg.timestamp);
+                    msgDiv.innerHTML = `
+                        <div class="message-sender">${msg.sender === 'esat' ? '👨 Esat' : '👩 Selin'}</div>
+                        <div class="message-text">${msg.text}</div>
+                        <div class="message-time">${date.toLocaleString('tr-TR')}</div>
+                    `;
+                    messagesList.appendChild(msgDiv);
+                });
+            });
+        }
+
+        function saveToFirebase() {
+            const dataToSave = {
+                timers: window.timers,
+                lastUpdate: Date.now()
+            };
+            set(ref(database, 'taskData'), dataToSave);
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#667eea', '#764ba2', '#ffeaa7', '#fdcb6e', '#ff6b9d'][Math.floor(Math.random() * 5)];
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievementPopup');
+            document.getElementById('achievementText').innerHTML = `<strong>${title}</strong><br>${text}`;
+            popup.classList.add('show');
+            setTimeout(() => popup.classList.remove('show'), 3000);
+        }
+
+        // Load data from Firebase on init
+        get(ref(database, 'taskData')).then((snapshot) => {
+            if (snapshot.exists()) {
+                window.timers = snapshot.val().timers || {};
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>
