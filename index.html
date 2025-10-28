@@ -538,100 +538,108 @@
 
         // Görev verileri
         const tasks = {
-            esat: {
-                pazartesi: [
-                    {id: 1, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
-                    {id: 2, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
-                    {id: 3, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
-                    {id: 4, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"},
-                    {id: 5, title: "Salon topla (koltuklar)", time: "20:15", duration: 5, category: "aksam"}
-                ],
-                sali: [
-                    {id: 6, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
-                    {id: 7, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
-                    {id: 8, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
-                    {id: 9, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"},
-                    {id: 10, title: "Salon 5 dakika topla", time: "20:15", duration: 5, category: "aksam"}
-                ],
-                carsamba: [
-                    {id: 11, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
-                    {id: 12, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
-                    {id: 13, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
-                    {id: 14, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"},
-                    {id: 15, title: "Küçük oda masasını topla (5 eşya)", time: "20:15", duration: 5, category: "aksam"}
-                ],
-                persembe: [
-                    {id: 16, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
-                    {id: 17, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
-                    {id: 18, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
-                    {id: 19, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"}
-                ],
-                cuma: [
-                    {id: 20, title: "Çöp çıkart", time: "06:45", duration: 5, category: "sabah"},
-                    {id: 21, title: "Kedi mama + su ver", time: "06:50", duration: 5, category: "sabah"},
-                    {id: 22, title: "Bulaşık makinesini doldur", time: "20:00", duration: 10, category: "aksam"},
-                    {id: 23, title: "El ile büyük bulaşıklar yıka", time: "20:10", duration: 5, category: "aksam"},
-                    {id: 24, title: "Salon GENEL topla (10 eşya)", time: "20:15", duration: 15, category: "aksam"}
-                ],
-                cumartesi: [
-                    {id: 25, title: "Çöp çıkart", time: "08:00", duration: 5, category: "sabah"},
-                    {id: 26, title: "Kedi mama + su ver", time: "08:05", duration: 5, category: "sabah"},
-                    {id: 27, title: "Bulaşık makinesini doldur + el ile yıka", time: "10:00", duration: 15, category: "buyuk"},
-                    {id: 28, title: "TOZ AL (tüm ev)", time: "10:15", duration: 15, category: "buyuk"},
-                    {id: 29, title: "SÜPÜR (tüm ev + halılar)", time: "10:30", duration: 30, category: "buyuk"},
-                    {id: 30, title: "Küçük odayı düzenle", time: "11:00", duration: 20, category: "buyuk"},
-                    {id: 31, title: "Salon yüzeylerini sil", time: "11:20", duration: 20, category: "buyuk"},
-                    {id: 32, title: "Kapı/dolap kollarını sil", time: "11:40", duration: 10, category: "buyuk"},
-                    {id: 33, title: "Kedi kumunu TAMAMEN değiştir", time: "11:50", duration: 10, category: "buyuk"},
-                    {id: 34, title: "Balkon süpür + düzenle", time: "15:00", duration: 15, category: "ogle"},
-                    {id: 35, title: "Elektrikli süpürge temizle", time: "15:15", duration: 15, category: "ogle"},
-                    {id: 36, title: "Bahçe işleri", time: "15:30", duration: 15, category: "ogle"}
-                ],
-                pazar: [
-                    {id: 37, title: "Çöp çıkart", time: "09:00", duration: 5, category: "sabah"},
-                    {id: 38, title: "Kedi mama + su ver", time: "09:05", duration: 5, category: "sabah"},
-                    {id: 39, title: "Bulaşık makinesini doldur", time: "19:30", duration: 10, category: "aksam"},
-                    {id: 40, title: "El ile büyük bulaşıklar yıka", time: "19:40", duration: 5, category: "aksam"}
-                ]
-            },
-            selin: {
-                pazartesi: [
-                    {id: 101, title: "Yemek hazırla", time: "17:00", duration: 15, category: "aksam"},
-                    {id: 102, title: "Yatak odası kıyafet ayır", time: "17:15", duration: 10, category: "aksam"}
-                ],
-                sali: [
-                    {id: 103, title: "Çamaşır makinesi başlat", time: "06:30", duration: 10, category: "sabah"},
-                    {id: 104, title: "Yemek hazırla", time: "16:45", duration: 15, category: "aksam"},
-                    {id: 105, title: "Çamaşırları as", time: "17:00", duration: 10, category: "aksam"},
-                    {id: 106, title: "Mutfak tezgahını sil", time: "17:10", duration: 5, category: "aksam"}
-                ],
-                carsamba: [
-                    {id: 107, title: "Yemek hazırla", time: "17:00", duration: 15, category: "aksam"},
-                    {id: 108, title: "Kıyafet ütüle (3-4 parça)", time: "17:15", duration: 15, category: "aksam"},
-                    {id: 109, title: "Banyo lavabo + ayna sil", time: "17:30", duration: 10, category: "aksam"},
-                    {id: 110, title: "Mutfak lavabosu sil", time: "17:40", duration: 5, category: "aksam"}
-                ],
-                persembe: [
-                    {id: 111, title: "Çamaşır makinesi başlat", time: "06:30", duration: 10, category: "sabah"},
-                    {id: 112, title: "Hızlı yemek", time: "16:45", duration: 15, category: "aksam"}
-                ],
-                cuma: [
-                    {id: 113, title: "Yemek hazırla", time: "17:00", duration: 15, category: "aksam"},
-                    {id: 114, title: "Çamaşırları dolaba yerleştir", time: "17:15", duration: 15, category: "aksam"}
-                ],
-                cumartesi: [
-                    {id: 115, title: "Çamaşır yıka + as", time: "10:00", duration: 20, category: "buyuk"},
-                    {id: 116, title: "Yatak odasını düzenle", time: "10:20", duration: 30, category: "buyuk"},
-                    {id: 117, title: "Ütü (10 parça)", time: "10:50", duration: 20, category: "buyuk"},
-                    {id: 118, title: "Banyo temizliği", time: "11:10", duration: 30, category: "buyuk"},
-                    {id: 119, title: "YER SİL - TÜM EV", time: "11:40", duration: 20, category: "buyuk"},
-                    {id: 120, title: "Buzdolabı temizliği", time: "15:00", duration: 15, category: "ogle"},
-                    {id: 121, title: "Mutfak + ocak derin temizlik", time: "15:15", duration: 15, category: "ogle"}
-                ],
-                pazar: [
-                    {id: 122, title: "Yemek hazırla", time: "18:00", duration: 20, category: "aksam"}
-                ]
-            }
+            const tasks = {
+    esat: {
+        pazartesi: [
+            {id: 1, title: "Çöpleri dışarı çıkaralım", time: "06:45", duration: 5, category: "sabah"},
+            {id: 2, title: "Kedimize mama ve su verelim", time: "06:50", duration: 5, category: "sabah"},
+            {id: 3, title: "Bulaşık makinesini dolduralım", time: "20:00", duration: 10, category: "aksam"},
+            {id: 4, title: "Büyük bulaşıkları el ile yıkayalım", time: "20:10", duration: 5, category: "aksam"},
+            {id: 5, title: "Salonu toplayalım (koltuklar)", time: "20:15", duration: 5, category: "aksam"}
+        ],
+        sali: [
+            {id: 6, title: "Çöpleri dışarı çıkaralım", time: "06:45", duration: 5, category: "sabah"},
+            {id: 7, title: "Kedimize mama ve su verelim", time: "06:50", duration: 5, category: "sabah"},
+            {id: 8, title: "Bulaşık makinesini dolduralım", time: "20:00", duration: 10, category: "aksam"},
+            {id: 9, title: "Büyük bulaşıkları el ile yıkayalım", time: "20:10", duration: 5, category: "aksam"},
+            {id: 10, title: "Salonu 5 dakika toplayalım", time: "20:15", duration: 5, category: "aksam"}
+        ],
+        carsamba: [
+            {id: 11, title: "Çöpleri dışarı çıkaralım", time: "06:45", duration: 5, category: "sabah"},
+            {id: 12, title: "Kedimize mama ve su verelim", time: "06:50", duration: 5, category: "sabah"},
+            {id: 13, title: "Bulaşık makinesini dolduralım", time: "20:00", duration: 10, category: "aksam"},
+            {id: 14, title: "Büyük bulaşıkları el ile yıkayalım", time: "20:10", duration: 5, category: "aksam"},
+            {id: 15, title: "Küçük oda masasını toplayalım (5 eşya)", time: "20:15", duration: 5, category: "aksam"}
+        ],
+        persembe: [
+            {id: 16, title: "Çöpleri dışarı çıkaralım", time: "06:45", duration: 5, category: "sabah"},
+            {id: 17, title: "Kedimize mama ve su verelim", time: "06:50", duration: 5, category: "sabah"},
+            {id: 18, title: "Bulaşık makinesini dolduralım", time: "20:00", duration: 10, category: "aksam"},
+            {id: 19, title: "Büyük bulaşıkları el ile yıkayalım", time: "20:10", duration: 5, category: "aksam"}
+        ],
+        cuma: [
+            {id: 20, title: "Çöpleri dışarı çıkaralım", time: "06:45", duration: 5, category: "sabah"},
+            {id: 21, title: "Kedimize mama ve su verelim", time: "06:50", duration: 5, category: "sabah"},
+            {id: 22, title: "Bulaşık makinesini dolduralım", time: "20:00", duration: 10, category: "aksam"},
+            {id: 23, title: "Büyük bulaşıkları el ile yıkayalım", time: "20:10", duration: 5, category: "aksam"},
+            {id: 24, title: "Salonu genel olarak toplayalım (10 eşya)", time: "20:15", duration: 15, category: "aksam"}
+        ],
+        cumartesi: [
+            {id: 25, title: "Çöpleri dışarı çıkaralım", time: "08:00", duration: 5, category: "sabah"},
+            {id: 26, title: "Kedimize mama ve su verelim", time: "08:05", duration: 5, category: "sabah"},
+            {id: 27, title: "Bulaşık makinesini doldurup yıkayalım", time: "10:00", duration: 15, category: "buyuk"},
+            {id: 28, title: "Tüm evi toz alalım", time: "10:15", duration: 15, category: "buyuk"},
+            {id: 29, title: "Tüm evi süpürelim (halılar dahil)", time: "10:30", duration: 30, category: "buyuk"},
+            {id: 30, title: "Küçük odayı düzenleyelim", time: "11:00", duration: 20, category: "buyuk"},
+            {id: 31, title: "Salon yüzeylerini sileyelim", time: "11:20", duration: 20, category: "buyuk"},
+            {id: 32, title: "Kapı ve dolap kollarını sileyelim", time: "11:40", duration: 10, category: "buyuk"},
+            {id: 33, title: "Kedi kumunu tamamen değiştirelim", time: "11:50", duration: 10, category: "buyuk"},
+            {id: 34, title: "Balkonu süpürüp düzenleyelim", time: "15:00", duration: 15, category: "ogle"},
+            {id: 35, title: "Elektrikli süpürgeyi temizleyelim", time: "15:15", duration: 15, category: "ogle"},
+            {id: 36, title: "Bahçe işlerini halledelim", time: "15:30", duration: 15, category: "ogle"}
+        ],
+        pazar: [
+            {id: 37, title: "Çöpleri dışarı çıkaralım", time: "09:00", duration: 5, category: "sabah"},
+            {id: 38, title: "Kedimize mama ve su verelim", time: "09:05", duration: 5, category: "sabah"},
+            {id: 39, title: "Bulaşık makinesini dolduralım", time: "19:30", duration: 10, category: "aksam"},
+            {id: 40, title: "Büyük bulaşıkları el ile yıkayalım", time: "19:40", duration: 5, category: "aksam"}
+        ]
+    },
+    selin: {
+        pazartesi: [
+            {id: 101, title: "Yemek hazırlayalım", time: "17:00", duration: 15, category: "aksam"},
+            {id: 102, title: "Yatak odasındaki kıyafetleri ayıralım", time: "17:15", duration: 10, category: "aksam"},
+            {id: 103, title: "Bulaşık makinesini boşaltalım", time: "21:00", duration: 10, category: "aksam"}
+        ],
+        sali: [
+            {id: 104, title: "Çamaşır makinesini başlatalım", time: "06:30", duration: 10, category: "sabah"},
+            {id: 105, title: "Yemek hazırlayalım", time: "16:45", duration: 15, category: "aksam"},
+            {id: 106, title: "Çamaşırları asalım", time: "17:00", duration: 10, category: "aksam"},
+            {id: 107, title: "Mutfak tezgahını sileyelim", time: "17:10", duration: 5, category: "aksam"},
+            {id: 108, title: "Bulaşık makinesini boşaltalım", time: "21:00", duration: 10, category: "aksam"}
+        ],
+        carsamba: [
+            {id: 109, title: "Yemek hazırlayalım", time: "17:00", duration: 15, category: "aksam"},
+            {id: 110, title: "Kıyafetleri ütüleyelim (3-4 parça)", time: "17:15", duration: 15, category: "aksam"},
+            {id: 111, title: "Banyo lavabo ve aynayı sileyelim", time: "17:30", duration: 10, category: "aksam"},
+            {id: 112, title: "Mutfak lavabosunu sileyelim", time: "17:40", duration: 5, category: "aksam"},
+            {id: 113, title: "Bulaşık makinesini boşaltalım", time: "21:00", duration: 10, category: "aksam"}
+        ],
+        persembe: [
+            {id: 114, title: "Çamaşır makinesini başlatalım", time: "06:30", duration: 10, category: "sabah"},
+            {id: 115, title: "Hızlı bir yemek hazırlayalım", time: "16:45", duration: 15, category: "aksam"},
+            {id: 116, title: "Bulaşık makinesini boşaltalım", time: "21:00", duration: 10, category: "aksam"}
+        ],
+        cuma: [
+            {id: 117, title: "Yemek hazırlayalım", time: "17:00", duration: 15, category: "aksam"},
+            {id: 118, title: "Çamaşırları dolaba yerleştirelim", time: "17:15", duration: 15, category: "aksam"},
+            {id: 119, title: "Bulaşık makinesini boşaltalım", time: "21:00", duration: 10, category: "aksam"}
+        ],
+        cumartesi: [
+            {id: 120, title: "Çamaşır yıkayıp asalım", time: "10:00", duration: 20, category: "buyuk"},
+            {id: 121, title: "Yatak odasını düzenleyelim", time: "10:20", duration: 30, category: "buyuk"},
+            {id: 122, title: "Ütü yapalım (10 parça)", time: "10:50", duration: 20, category: "buyuk"},
+            {id: 123, title: "Banyoyu temizleyelim", time: "11:10", duration: 30, category: "buyuk"},
+            {id: 124, title: "Tüm evin yerlerini sileyelim", time: "11:40", duration: 20, category: "buyuk"},
+            {id: 125, title: "Buzdolabını temizleyelim", time: "15:00", duration: 15, category: "ogle"},
+            {id: 126, title: "Mutfak ve ocağı derinlemesine temizleyelim", time: "15:15", duration: 15, category: "ogle"},
+            {id: 127, title: "Bulaşık makinesini boşaltalım", time: "21:00", duration: 10, category: "aksam"}
+        ],
+        pazar: [
+            {id: 128, title: "Yemek hazırlayalım", time: "18:00", duration: 20, category: "aksam"},
+            {id: 129, title: "Bulaşık makinesini boşaltalım", time: "21:00", duration: 10, category: "aksam"}
+        ]
+    }
         };
 
         const dayNames = ['pazar', 'pazartesi', 'sali', 'carsamba', 'persembe', 'cuma', 'cumartesi'];
